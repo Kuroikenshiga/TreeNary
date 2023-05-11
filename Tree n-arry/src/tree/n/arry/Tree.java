@@ -53,6 +53,26 @@ public class Tree {
             }
             return null;
     }
+        
+    public boolean delete(int value){
+        return this.delete(value, this.root);
+    }
+    private boolean delete(int value,Number root){
+        boolean sucessDelete = root.removeSon(value);
+        if(sucessDelete){
+            return true;
+        }
+        if(root.getBrother() != null){
+           boolean sucessDelete2 = this.delete(value, root.getBrother());
+           if(sucessDelete2){
+               return true;
+           }
+        }
+        if(root.getFirstSon() != null){
+            return this.delete(value, root.getFirstSon());
+        }
+        return false;
+    }
     
     public boolean insert(Number son,int father){
         Number daddy = this.breadthSearch(father);

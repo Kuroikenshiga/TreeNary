@@ -52,6 +52,27 @@ public class Number {
                 addSon(son, brother.brother);
             }
         }
+    public boolean removeSon(int value){
+        if(this.firstSon == null){
+            return false;
+        }
+        if(this.firstSon.value == value){
+            this.firstSon = this.firstSon.brother;
+            return true;
+        }
+        return removeSon(value, this.firstSon);
+    }
+    private boolean removeSon(int value,Number first){
+        if(first.brother == null){
+            return false;
+        }
+        if(first.brother.value == value){
+            first.brother = first.brother.brother;
+            return true;
+        }
+        return removeSon(value, first.brother);
+       
+    }
     
             
 }
