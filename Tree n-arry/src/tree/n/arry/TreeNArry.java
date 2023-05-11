@@ -14,7 +14,7 @@ public static void main(String[] args) {
     t.insert(new Number(5), 3);
     t.insert(new Number(6), 3);
     
-    System.out.println(t.search(3).getFirstSon().getValue());
+    System.out.println(t.breadthSearch(3).getFirstSon().getValue());
 }
     
 }
