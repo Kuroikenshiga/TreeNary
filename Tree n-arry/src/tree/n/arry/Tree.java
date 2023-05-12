@@ -33,32 +33,55 @@ public class Tree {
         return null;
     }
         //Busca em largura
-        public Number breadthSearch(int value){
-            return breadthSearch(value,this.root);
+    public Number breadthSearch(int value){
+        if(value == this.root.getValue()){
+            return root;
+        }
+        return breadthSearch(value,this.root);
         }
         
-        private Number breadthSearch(int value,Number root){
-            if(root.getValue() == value){
-                return root;
-            }
-            if(root.getBrother()!= null){
-                Number aux = breadthSearch(value,root.getBrother());
-                if(aux != null){
-                    return aux;
-                }
-
-            }
-            if(root.getFirstSon()!= null){
-                return breadthSearch(value,root.getFirstSon());
-            }
-            return null;
-    }
+    private Number breadthSearch(int value,Number root){
+        Number sonAux = recursiveSearchSon(root.getFirstSon(), value);
         
+        if(sonAux != null){
+            return sonAux;
+        }
+        if(root.getBrother() != null){
+            Number brotherAux = breadthSearch(value, root.getBrother());
+            
+            if(brotherAux != null){
+                return brotherAux;
+            }
+        }
+        if(root.getFirstSon() != null){
+            return breadthSearch(value, root.getFirstSon());
+        }
+        
+        return null;
+    }
+    
+    public Number recursiveSearchSon(Number son,int value){
+        if(son == null){
+            return null;
+        }
+        if(son.getValue() == value){
+            return son;
+        }
+        return recursiveSearchSon(son.getBrother(), value);
+        
+    }
+   
     public boolean delete(int value){
         return this.delete(value, this.root);
     }
     private boolean delete(int value,Number root){
-        boolean sucessDelete = root.removeSon(value);
+        if(root.getFirstSon()!=null){
+            if(root.getFirstSon().getValue() == value){
+                root.setFirstSon(root.getFirstSon().getBrother());
+                return true;
+        }
+        }
+        boolean sucessDelete = recursiveRemoveSon(root.getFirstSon(),value);
         if(sucessDelete){
             return true;
         }
@@ -74,12 +97,38 @@ public class Tree {
         return false;
     }
     
+    public boolean recursiveRemoveSon(Number son,int sonToDelete){
+        if(son == null){
+            return false;
+        }
+        if(son.getBrother() == null){
+            return false;
+        }
+        if(son.getBrother().getValue() == sonToDelete){
+            son.setBrother(son.getBrother().getBrother());
+            return true;
+        }
+        return recursiveRemoveSon(son.getBrother(), sonToDelete);
+    }
+    
+    public void recursiveAddSon(Number son,Number newestSon){
+        if(son.getBrother() == null){
+            son.setBrother(newestSon);
+        }
+        else{
+            recursiveAddSon(son.getBrother(), newestSon);
+        }
+        }
     public boolean insert(Number son,int father){
         Number daddy = this.breadthSearch(father);
         if(daddy == null){
             return false;
         }
-        daddy.addSon(son);
+        if(daddy.getFirstSon() == null){
+            daddy.setFirstSon(son);
+            return true;
+        }
+        recursiveAddSon(daddy.getFirstSon(), son);
         return true;
     }
     

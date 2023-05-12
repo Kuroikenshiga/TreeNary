@@ -14,10 +14,10 @@ public static void main(String[] args) {
     t.insert(new Number(5), 3);
     t.insert(new Number(6), 3);
     
-    System.out.println(t.breadthSearch(3).getFirstSon().getValue());
-    System.out.println( t.delete(5));
-    System.out.println(t.breadthSearch(3).getFirstSon().getBrother().getBrother().getValue());
-    
+    //System.out.println(t.breadthSearch(10).getValue());
+     t.delete(3);
+    System.out.println(t.breadthSearch(4));
+
 }
     
 }
